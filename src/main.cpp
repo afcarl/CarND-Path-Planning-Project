@@ -210,7 +210,7 @@ int main() {
     //cout << sdata << endl;
 
     int lane = 1;
-    double ref_velocity = 49.5;
+    double ref_velocity;
 
     if (length && length > 2 && data[0] == '4' && data[1] == '2') {
 
@@ -244,6 +244,7 @@ int main() {
 
           	json msgJson;
             int prev_size = previous_path_x.size();
+            bool is_very_close = false;
 
             if (prev_size > 0) {
               car_s = end_path_s;
@@ -259,9 +260,20 @@ int main() {
                 check_car_s += ((double) prev_size * 0.02 * check_speed);
 
                 if (check_car_s > car_s && (check_car_s - car_s) < 30) {
-                  ref_velocity = 29.5;
+                  // ref_velocity = 29.5;
+                  is_very_close = true;
                 }
               }
+            }
+
+            if (prev_size == 0) {
+              ref_velocity = 0.1;
+            }
+            else if (is_very_close) {
+              ref_velocity -= 0.224;
+            }
+            else if (ref_velocity < 49.5) {
+              ref_velocity += 0.224;
             }
 
             vector<double> ptsx;
