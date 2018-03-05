@@ -43,7 +43,7 @@ class Vehicle {
   struct trajectory {
     int lane_start = 0;
     int lane_end = 0;
-    double target_speed=0;
+    double target_speed = 0;
   } trajectory;
 
   double ref_speed = 0;

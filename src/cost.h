@@ -26,16 +26,20 @@ public:
    */
   CostFunction(Vehicle *v, vector<vector<double>> s);
 
+  /**
+   * Compute cost
+   */
+  double compute();
+
   /*
    * Cost functions
    */
-  double ChangeLane();
-  double DistanceGoalLane();
-  double Inefficiency();
-  double Collision();
-  double Buffer();
-  double Target();
-  double Compute();
+  double change_lane_cost();
+  double distance_goal_lane_cost();
+  double inefficiency_cost();
+  double collision_cost();
+  double buffer_cost();
+  double reference_velocity_cost();
   
 };
 
