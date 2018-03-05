@@ -254,7 +254,7 @@ int main() {
 
 		//compute next state
 		vehicle.Update(car_x, car_y, car_s, car_d, car_yaw, car_speed, lane, ref_vel, prev_size*.02);
-		vehicle.NextState(sensor_fusion);
+		vehicle.get_next_state(sensor_fusion);
 		//update lane and speed ref in order to generate path
 		lane = vehicle.update.lane;		
 		ref_vel = vehicle.update.ref_v;		

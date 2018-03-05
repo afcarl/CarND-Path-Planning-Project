@@ -2,11 +2,11 @@
 #include <iostream>
 #include <iostream>
 #include <math.h>
-
 #include "cost.h"
 
+// mile per seconds to mile per hour
 const double MS_TO_MPH = 2.23694;
-
+// mile per hour to mile per second
 const double MPH_TO_MS = 0.44704;
 
 Vehicle::Vehicle(int lane, double target_speed){
@@ -16,16 +16,16 @@ Vehicle::Vehicle(int lane, double target_speed){
   
 void Vehicle::Update(double ax, double ay, double as, double ad, double ayaw, double aspeed, int lane, double target_speed, double delta){
   //update raw data
-  x = ax;
-  y = ay;
-  s = as;
-  d = ad;
-  yaw = ayaw;
-  speed = aspeed;
-  delta_time = delta;
+  this->x = ax;
+  this->y = ay;
+  this->s = as;
+  this->d = ad;
+  this->yaw = ayaw;
+  this->speed = aspeed;
+  this->delta_time = delta;
 
-  ref_speed = target_speed;
-  ref_lane = lane;
+  this->ref_speed = target_speed;
+  this->ref_lane = lane;
 
   //clean data
   _reset_data();
@@ -35,22 +35,22 @@ void Vehicle::_reset_data(){
   //clean data
 
   //reset trajectory
-  trajectory.lane_start = ref_lane;
-  trajectory.lane_end = ref_lane;
-  trajectory.target_speed = ref_speed;
+  this->trajectory.lane_start = ref_lane;
+  this->trajectory.lane_end = ref_lane;
+  this->trajectory.target_speed = ref_speed;
 
   //reset update
-  update.ref_v = ref_speed;
-  update.lane = ref_lane;
-  update.target_v = 49.50;
-  collider.collision = false;
-  collider.distance = 10000;
-  collider.closest_approach = 10000;
-  collider.target_speed = 0;
+  this->update.ref_v = ref_speed;
+  this->update.lane = ref_lane;
+  this->update.target_v = 49.50;
+  this->collider.collision = false;
+  this->collider.distance = 10000;
+  this->collider.closest_approach = 10000;
+  this->collider.target_speed = 0;
 }
 
 
-void Vehicle::NextState(vector<vector<double>> sensor){
+void Vehicle::get_next_state(vector<vector<double>> sensor){
   States current_state = state;
   vector<States> states;
   //select reachable states

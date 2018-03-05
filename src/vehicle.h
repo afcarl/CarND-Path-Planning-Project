@@ -62,7 +62,7 @@ class Vehicle {
    */
   void Update(double ax, double ay, double as, double ad, double ayaw, double aspeed, int lane, double target_speed, double delta);
   
-  void NextState(vector<vector<double>> sensor);
+  void get_next_state(vector<vector<double>> sensor);
 
  private:
   void _realise_state(States state, vector<vector<double>> sensor_fusion);
