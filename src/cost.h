@@ -9,10 +9,10 @@ using namespace std;
 
 class CostFunction {
 public:
-  const double SUFFICIANT_SPEED = pow(10, 5);
   const double COLLISION = pow(10, 6);
   const double DANGER = pow(10, 5);
   const double REACH_GOAL = pow(10, 5);
+  const double SUFFICIANT_SPEED = pow(10, 5);
   const double COMFORT = pow(10, 4);
   const double EFFICIENCY = pow(10, 2);  //2
 
@@ -41,7 +41,7 @@ public:
   double inefficiency_cost();
   double collision_cost();
   double buffer_cost();
-  double reference_velocity_cost();
+  double target_speed_cost();
   
 };
 

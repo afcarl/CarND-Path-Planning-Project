@@ -10,7 +10,6 @@
 #include <string>
 #include <iterator>
 
-
 using namespace std;
 
 enum State {
@@ -27,12 +26,6 @@ class Vehicle {
   // car state
   State state = KL;
 
-  struct reference {
-    double ref_v = 0;
-    double target_v = 49.50;
-    int lane = 0;
-  } reference;
-
   struct collider {
     bool collision = false;
     double distance = 0;
@@ -45,6 +38,12 @@ class Vehicle {
     int lane_end = 0;
     double target_speed = 0;
   } trajectory;
+
+  struct reference {
+    double ref_v = 0;
+    double target_v = 49.50;
+    int lane = 0;
+  } reference;
 
   double ref_speed = 0;
   int ref_lane = 0;
@@ -71,7 +70,7 @@ class Vehicle {
                    int lane, double target_speed, double delta);
   
   // get next state
-  void get_next_state(vector<vector<double>> sensor);
+  void choose_next_state(vector<vector<double>> sensor);
   // realize next state
   void realize_next_state(State state, vector<vector<double>> sensor_fusion);
 };

@@ -254,7 +254,7 @@ int main() {
 
           // compute next state
           vehicle.update_data(car_x, car_y, car_s, car_d, car_yaw, car_speed, lane, ref_vel, prev_size*.02);
-          vehicle.get_next_state(sensor_fusion);
+          vehicle.choose_next_state(sensor_fusion);
 
           // update lane and reference velocity to generate path
           lane = vehicle.reference.lane;
@@ -342,12 +342,10 @@ int main() {
           double target_y = s(target_x);
           double target_dist = sqrt((target_x) * (target_x) + (target_y)*(target_y));
 
-          double x_add_on = 0;
-
           // fill up the rest of our path planner after filling it with previous points, here we will always output 50 points
+          double x_add_on = 0;
           for(int i = 0; i < 50-previous_path_x.size(); i++){
-
-            double N = (target_dist/(.02*ref_vel/2.24));
+            double N = (target_dist/(0.02*ref_vel/2.24));
             double x_point = x_add_on + (target_x)/N;
             double y_point = s(x_point);
 
@@ -359,7 +357,6 @@ int main() {
             // rotate back to normal after rotation it earlier
             x_point = (x_ref * cos(ref_yaw)-y_ref*sin(ref_yaw));
             y_point = (x_ref * sin(ref_yaw)+y_ref*cos(ref_yaw));
-
             x_point += ref_x;
             y_point += ref_y;
 
