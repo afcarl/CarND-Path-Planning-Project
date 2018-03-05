@@ -253,11 +253,11 @@ int main() {
 		double match_speed = 0;
 
 		//compute next state
-		vehicle.Update(car_x, car_y, car_s, car_d, car_yaw, car_speed, lane, ref_vel, prev_size*.02);
+		vehicle.update(car_x, car_y, car_s, car_d, car_yaw, car_speed, lane, ref_vel, prev_size*.02);
 		vehicle.get_next_state(sensor_fusion);
 		//update lane and speed ref in order to generate path
-		lane = vehicle.update.lane;		
-		ref_vel = vehicle.update.ref_v;		
+		lane = vehicle.reference.lane;		
+		ref_vel = vehicle.reference.ref_v;		
 
 		//Create a list of widely spaced(x,y) waypoints, evenly spaced at 30m
 		//Later we will interpolate these waypoints with a spline and fill it in with more points that control speed

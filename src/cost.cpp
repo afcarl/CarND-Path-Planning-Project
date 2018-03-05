@@ -54,7 +54,7 @@ double CostFunction::ChangeLane(){
 double CostFunction::Inefficiency(){
   //Always, the best efficiency is when the speed is closest to the limit
   double cost = 0;
-  double diff = (49.5 - vehicle->update.target_v)/49.5;
+  double diff = (49.5 - vehicle->reference.target_v)/49.5;
   cost = pow(diff,2) * EFFICIENCY;  
   return cost;
 }
