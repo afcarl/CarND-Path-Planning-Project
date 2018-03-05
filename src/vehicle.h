@@ -64,17 +64,16 @@ class Vehicle {
   */
   Vehicle(int lane, double target_speed);
 
+  // reset data
+  void reset_data();
   // update car
-  void update(double ax, double ay, double as, double ad, double ayaw, double aspeed,
-              int lane, double target_speed, double delta);
+  void update_data(double ax, double ay, double as, double ad, double ayaw, double aspeed,
+                   int lane, double target_speed, double delta);
   
   // get next state
   void get_next_state(vector<vector<double>> sensor);
-
- private:
-  void _realise_state(State state, vector<vector<double>> sensor_fusion);
-  void _reset_data();
-
+  // realize next state
+  void realize_next_state(State state, vector<vector<double>> sensor_fusion);
 };
 
 #endif

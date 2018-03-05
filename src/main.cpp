@@ -253,7 +253,7 @@ int main() {
           double match_speed = 0;
 
           // compute next state
-          vehicle.update(car_x, car_y, car_s, car_d, car_yaw, car_speed, lane, ref_vel, prev_size*.02);
+          vehicle.update_data(car_x, car_y, car_s, car_d, car_yaw, car_speed, lane, ref_vel, prev_size*.02);
           vehicle.get_next_state(sensor_fusion);
 
           // update lane and reference velocity to generate path

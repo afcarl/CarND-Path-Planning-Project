@@ -14,7 +14,7 @@ Vehicle::Vehicle(int lane, double target_speed){
     ref_lane = lane;
 }
   
-void Vehicle::update(double ax, double ay, double as, double ad, double ayaw, double aspeed, int lane, double target_speed, double delta){
+void Vehicle::update_data(double ax, double ay, double as, double ad, double ayaw, double aspeed, int lane, double target_speed, double delta){
   //update raw data
   this->x = ax;
   this->y = ay;
@@ -28,10 +28,10 @@ void Vehicle::update(double ax, double ay, double as, double ad, double ayaw, do
   this->ref_lane = lane;
 
   //clean data
-  _reset_data();
+  reset_data();
 }
 
-void Vehicle::_reset_data(){
+void Vehicle::reset_data(){
   //clean data
 
   //reset trajectory
@@ -86,8 +86,8 @@ void Vehicle::get_next_state(vector<vector<double>> sensor){
   for(int i =0; i<states.size(); i++){
     State n_state = states[i];
     //prepare state
-    _reset_data();
-    _realise_state(n_state, sensor);    
+    reset_data();
+    realize_next_state(n_state, sensor);    
     CostFunction cost = CostFunction(this, sensor);
     double value = cost.Compute();  
     if(value < min_cost){
@@ -95,10 +95,11 @@ void Vehicle::get_next_state(vector<vector<double>> sensor){
       min_cost = value;
     }
   }
+
   //update state
   state = min_state;
-  _reset_data();
-  _realise_state(state, sensor);
+  reset_data();
+  realize_next_state(state, sensor);
   //update speed
   CostFunction cost = CostFunction(this, sensor);
   float v = cost.Compute();
@@ -110,7 +111,7 @@ void Vehicle::get_next_state(vector<vector<double>> sensor){
   std::cout << "NEW STATE " << state << " with cost " << min_cost << "\n";
 }
 
-void Vehicle::_realise_state(State astate, vector<vector<double>> sensor_fusion){
+void Vehicle::realize_next_state(State astate, vector<vector<double>> sensor_fusion){
   state = astate;
   switch(state){
   case KL: {
