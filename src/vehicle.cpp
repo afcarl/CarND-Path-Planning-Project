@@ -56,7 +56,20 @@ void Vehicle::get_next_state(vector<vector<double>> sensor){
 
   //select reachable states
   states.push_back(KL);
-  if(state == PLCL){
+  if (state == KL) {
+    if(ref_lane != 0){
+      // check if a vehicle is ready to change lane to left.
+      if(d<(2+4*(ref_lane)+2) && d>(2+4*(ref_lane)-2)){
+        states.push_back(PLCL);
+      }
+    }
+    // check if a vehicle is ready to change lane to left.
+    if(ref_lane != 2){
+      if(d<(2+4*(ref_lane)+2) && d>(2+4*(ref_lane)-2)){
+        states.push_back(PLCR);
+      }
+    }
+  } else if(state == PLCL){
     // prepare lane change left
     states.push_back(LCL);
     states.push_back(PLCL);
@@ -64,20 +77,22 @@ void Vehicle::get_next_state(vector<vector<double>> sensor){
     // prepare lane change right
     states.push_back(LCR);
     states.push_back(PLCR);
-  } else {    
-    if(ref_lane != 0){
-      // check if a vehicle is ready to change lane to left.
-      if(d<(2+4*(ref_lane)+2) && d>(2+4*(ref_lane)-2) && speed > 20){
-        states.push_back(PLCL);
-      }
-    }
-    // check if a vehicle is ready to change lane to left.
-    if(ref_lane != 2){
-      if(d<(2+4*(ref_lane)+2) && d>(2+4*(ref_lane)-2) && speed > 20){
-        states.push_back(PLCR);
-      }
-    }
   }
+// TODO remove
+//  else {
+//    if(ref_lane != 0){
+//      // check if a vehicle is ready to change lane to left.
+//      if(d<(2+4*(ref_lane)+2) && d>(2+4*(ref_lane)-2) && speed > 20){
+//        states.push_back(PLCL);
+//      }
+//    }
+//    // check if a vehicle is ready to change lane to left.
+//    if(ref_lane != 2){
+//      if(d<(2+4*(ref_lane)+2) && d>(2+4*(ref_lane)-2) && speed > 20){
+//        states.push_back(PLCR);
+//      }
+//    }
+//  }
   State min_state = KL;
   double  min_cost = 10000000;
 
@@ -151,23 +166,23 @@ void Vehicle::realize_next_state(State astate, vector<vector<double>> sensor_fus
   }
 
   //check lane
-  if (trajectory.lane_end < 0) {
-    trajectory.lane_end = 0;
-  } else if (trajectory.lane_end > 2) {
-    trajectory.lane_end = 2;
-  }
-
-  if (trajectory.lane_start < 0) {
-    trajectory.lane_start = 0;
-  } else if (trajectory.lane_start > 2) {
-    trajectory.lane_start = 2;
-  }
-
-  if (reference.lane < 0) {
-    reference.lane = 0;
-  } else if (reference.lane > 2) {
-    reference.lane = 2;
-  }
+//  if (trajectory.lane_end < 0) {
+//    trajectory.lane_end = 0;
+//  } else if (trajectory.lane_end > 2) {
+//    trajectory.lane_end = 2;
+//  }
+//
+//  if (trajectory.lane_start < 0) {
+//    trajectory.lane_start = 0;
+//  } else if (trajectory.lane_start > 2) {
+//    trajectory.lane_start = 2;
+//  }
+//
+//  if (reference.lane < 0) {
+//    reference.lane = 0;
+//  } else if (reference.lane > 2) {
+//    reference.lane = 2;
+//  }
 
   double target_speed_front = 0;
   double target_distance_front = 10000;

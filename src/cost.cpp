@@ -18,6 +18,7 @@ double CostFunction::compute(){
   
   //compute cost
   double cost = 0;
+  cost += SUFFICIANT_SPEED * sufficiant_speed_cost();
   cost += COMFORT * change_lane_cost();
   cost += EFFICIENCY * inefficiency_cost();
   cost += COLLISION * collision_cost();
@@ -27,11 +28,21 @@ double CostFunction::compute(){
   return cost;
 }
 
+double CostFunction::sufficiant_speed_cost() {
+  int start_lane = vehicle->trajectory.lane_start;
+  int end_lane = vehicle->trajectory.lane_end;
+  if (start_lane != end_lane && vehicle->speed < 20) {
+    return 1;
+  }
+  return 0;
+}
+
 double CostFunction::reference_velocity_cost() {
   double cost =0;
   if (!vehicle->collider.collision) {
     return 0;
   }
+// TODO remove
 //  int end_lane = vehicle->trajectory.lane_end;
 //  int start_lane = vehicle->trajectory.lane_start;
   double diff = (vehicle->collider.target_speed - vehicle->speed)/vehicle->collider.target_speed;
