@@ -18,8 +18,8 @@ public:
   const double DESIRED_BUFFER = 1;//1.5;
   const double PLANNING_HORIZON = 2;
 
-  vector<vector<double>> sensor_fusion;
   Vehicle *vehicle;
+  vector<vector<double>> sensor_fusion;
 
   /**
    * Constructor

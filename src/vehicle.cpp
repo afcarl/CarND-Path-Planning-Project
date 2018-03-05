@@ -53,6 +53,7 @@ void Vehicle::_reset_data(){
 void Vehicle::get_next_state(vector<vector<double>> sensor){
   State current_state = state;
   vector<State> states;
+
   //select reachable states
   states.push_back(KL);
   if(state == PLCL){

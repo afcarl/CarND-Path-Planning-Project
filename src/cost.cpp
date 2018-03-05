@@ -18,11 +18,11 @@ double CostFunction::Compute(){
   
   //compute cost
   double cost = 0;
-  cost += ChangeLane();  
-  cost += Inefficiency();
-  cost += Collision();
+  cost += COMFORT * ChangeLane();
+  cost += EFFICIENCY * Inefficiency();
+  cost += COLLISION * Collision();
   cost += Buffer();
-  cost += Target();
+  cost += EFFICIENCY * Target();
   
   return cost;
 }
@@ -35,7 +35,7 @@ double CostFunction::Target(){
   int end_lane = vehicle->trajectory.lane_end;
   int start_lane = vehicle->trajectory.lane_start;
   double diff = (vehicle->collider.target_speed - vehicle->speed)/vehicle->collider.target_speed;
-  cost = pow(diff,2) * EFFICIENCY;      
+  cost = pow(diff,2);
   return cost;
 }
 
@@ -45,7 +45,7 @@ double CostFunction::ChangeLane(){
   int start_lane = vehicle->trajectory.lane_start;
   double cost = 0;
   if(start_lane != end_lane){
-    cost += COMFORT;
+    cost += 1;
   } 
   
   return cost;
@@ -55,7 +55,7 @@ double CostFunction::Inefficiency(){
   //Always, the best efficiency is when the speed is closest to the limit
   double cost = 0;
   double diff = (49.5 - vehicle->reference.target_v)/49.5;
-  cost = pow(diff,2) * EFFICIENCY;  
+  cost = pow(diff,2);
   return cost;
 }
 
@@ -65,12 +65,12 @@ double CostFunction::Collision(){
     double distance =  vehicle->collider.distance;
     //distance divided by the relative speed
     double time_to_collide = abs(vehicle->collider.distance)/(abs(vehicle->speed)*MPH_TO_MS);
-    cost = exp(-pow(time_to_collide,2))*COLLISION;
+    cost = exp(-pow(time_to_collide,2));
     //changing lane    
     if(vehicle->trajectory.lane_end != vehicle->trajectory.lane_start){
       if(time_to_collide > DESIRED_BUFFER){
-	//safe to change lane
-	cost /= 10;
+        //safe to change lane
+        cost /= 10;
       } 
     }
   }
@@ -85,9 +85,8 @@ double CostFunction::Buffer(){
     return 0;
   }
 
+  // check buffer
   double time_steps = abs(vehicle->collider.closest_approach)/(abs(vehicle->speed)*MPH_TO_MS);
-
-  
   if(time_steps > DESIRED_BUFFER){
     return 0;
   }
@@ -95,7 +94,7 @@ double CostFunction::Buffer(){
   double multiplier = 1.0 - pow((time_steps / DESIRED_BUFFER),2);
   cost = multiplier * DANGER;
   if(vehicle->collider.closest_approach < 0){
-    //car in the back
+    // car in the back
     cost /= 10;
   }       
   return cost;
