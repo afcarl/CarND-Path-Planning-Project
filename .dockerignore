@@ -1,0 +1,11 @@
+.git/
+build/
+.cproject
+.dockerignore
+.gitignore
+.project
+Dockerfile
+eclipse-cpp-google-style.xml
+install-mac.sh
+LICENSE
+README.md
